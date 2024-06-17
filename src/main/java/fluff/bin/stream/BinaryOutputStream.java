@@ -4,8 +4,8 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import fluff.bin.IBinaryData;
 import fluff.bin.IBinaryOutput;
+import fluff.bin.data.IBinaryWritable;
 
 /**
  * The {@code BinaryOutputStream} class extends {@code FilterOutputStream} and implements the {@code IBinaryOutput} 
@@ -99,7 +99,7 @@ public class BinaryOutputStream extends FilterOutputStream implements IBinaryOut
     }
     
     @Override
-    public void Data(IBinaryData data) throws IOException {
+    public void Data(IBinaryWritable data) throws IOException {
         data.writeData(this);
     }
 }

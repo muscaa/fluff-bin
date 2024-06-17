@@ -4,8 +4,8 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import fluff.bin.IBinaryData;
 import fluff.bin.IBinaryInput;
+import fluff.bin.data.IBinaryReadable;
 
 /**
  * The {@code BinaryInputStream} class extends {@code FilterInputStream} and implements the {@code IBinaryInput} 
@@ -109,7 +109,8 @@ public class BinaryInputStream extends FilterInputStream implements IBinaryInput
     }
     
     @Override
-    public void Data(IBinaryData data) throws IOException {
+    public <V extends IBinaryReadable> V Data(V data) throws IOException {
         data.readData(this);
+        return data;
     }
 }

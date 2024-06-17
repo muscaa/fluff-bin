@@ -2,6 +2,8 @@ package fluff.bin;
 
 import java.io.IOException;
 
+import fluff.bin.data.IBinaryReadable;
+
 /**
  * The {@code IBinaryInput} interface defines methods for reading various data types from a binary input.
  * Implementations of this interface can be used to deserialize binary data.
@@ -107,10 +109,12 @@ public interface IBinaryInput {
     byte[] Bytes(int length) throws IOException;
     
     /**
-     * Reads binary data into the specified {@code IBinaryData} object.
+     * Reads binary data into the specified {@code IBinaryReadable} object.
      *
-     * @param data the {@code IBinaryData} object to read data into
+     * @param data the {@code IBinaryReadable} object to read data into
+     * @param <V> the type of the data
+     * @return the data read
      * @throws IOException if an I/O error occurs
      */
-    void Data(IBinaryData data) throws IOException;
+    <V extends IBinaryReadable> V Data(V data) throws IOException;
 }

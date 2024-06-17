@@ -2,6 +2,8 @@ package fluff.bin;
 
 import java.io.IOException;
 
+import fluff.bin.data.IBinaryWritable;
+
 /**
  * The {@code IBinaryOutput} interface defines methods for writing various data types to a binary output.
  * Implementations of this interface can be used to serialize binary data.
@@ -107,10 +109,10 @@ public interface IBinaryOutput {
     void Bytes(byte[] value, int length) throws IOException;
     
     /**
-     * Writes binary data from the specified {@code IBinaryData} object to the binary output.
+     * Writes binary data from the specified {@code IBinaryWritable} object to the binary output.
      *
-     * @param data the {@code IBinaryData} object containing data to write
+     * @param data the {@code IBinaryWritable} object containing data to write
      * @throws IOException if an I/O error occurs
      */
-    void Data(IBinaryData data) throws IOException;
+    void Data(IBinaryWritable data) throws IOException;
 }
