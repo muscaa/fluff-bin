@@ -4,6 +4,7 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import fluff.bin.Binary;
 import fluff.bin.IBinaryOutput;
 import fluff.bin.data.IBinaryWritable;
 
@@ -24,78 +25,62 @@ public class BinaryOutputStream extends FilterOutputStream implements IBinaryOut
     
     @Override
     public void Boolean(boolean value) throws IOException {
-        write(value ? 1 : 0);
+        Binary.Boolean(this::write, value);
     }
     
     @Override
     public void Byte(byte value) throws IOException {
-        write(value);
+    	Binary.Byte(this::write, value);
     }
     
     @Override
     public void Char(char value) throws IOException {
-        write((value >>  8) & 0xFF);
-        write((value      ) & 0xFF);
+    	Binary.Char(this::write, value);
     }
     
     @Override
     public void Short(short value) throws IOException {
-        write((value >>  8) & 0xFF);
-        write((value      ) & 0xFF);
+    	Binary.Short(this::write, value);
     }
     
     @Override
     public void Int(int value) throws IOException {
-        write((value >> 24) & 0xFF);
-        write((value >> 16) & 0xFF);
-        write((value >>  8) & 0xFF);
-        write((value      ) & 0xFF);
+    	Binary.Int(this::write, value);
     }
     
     @Override
     public void Float(float value) throws IOException {
-        Int(Float.floatToIntBits(value));
+    	Binary.Float(this::write, value);
     }
     
     @Override
     public void Long(long value) throws IOException {
-        write((int) ((value >> 56) & 0xFF));
-        write((int) ((value >> 48) & 0xFF));
-        write((int) ((value >> 40) & 0xFF));
-        write((int) ((value >> 32) & 0xFF));
-        write((int) ((value >> 24) & 0xFF));
-        write((int) ((value >> 16) & 0xFF));
-        write((int) ((value >>  8) & 0xFF));
-        write((int) ((value      ) & 0xFF));
+    	Binary.Long(this::write, value);
     }
     
     @Override
     public void Double(double value) throws IOException {
-        Long(Double.doubleToLongBits(value));
+    	Binary.Double(this::write, value);
     }
     
     @Override
     public void LenString(String value) throws IOException {
-        Int(value.length());
-        String(value, value.length());
+    	Binary.LenString(this::write, value);
     }
     
     @Override
     public void String(String value, int length) throws IOException {
-        for (int i = 0; i < length; i++) {
-            Char(value.charAt(i));
-        }
+    	Binary.String(this::write, value, length);
     }
     
     @Override
     public void LenBytes(byte[] value) throws IOException {
-        Int(value.length);
-        Bytes(value, value.length);
+    	Binary.LenBytes(this::write, value);
     }
     
     @Override
     public void Bytes(byte[] value, int length) throws IOException {
-        write(value, 0, length);
+    	Binary.Bytes(this::write, value, length);
     }
     
     @Override

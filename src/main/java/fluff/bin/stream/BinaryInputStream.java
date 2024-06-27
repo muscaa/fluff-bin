@@ -4,6 +4,7 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import fluff.bin.Binary;
 import fluff.bin.IBinaryInput;
 import fluff.bin.data.IBinaryReadable;
 
@@ -24,88 +25,62 @@ public class BinaryInputStream extends FilterInputStream implements IBinaryInput
     
     @Override
     public boolean Boolean() throws IOException {
-        return read() != 0;
+        return Binary.Boolean(this::read);
     }
     
     @Override
     public byte Byte() throws IOException {
-        return (byte) read();
+        return Binary.Byte(this::read);
     }
     
     @Override
     public char Char() throws IOException {
-        return (char) (
-                (read() & 0xFF) <<  8 |
-                (read() & 0xFF)
-                );
+        return Binary.Char(this::read);
     }
     
     @Override
     public short Short() throws IOException {
-        return (short) (
-                (read() & 0xFF) <<  8 |
-                (read() & 0xFF)
-                );
+        return Binary.Short(this::read);
     }
     
     @Override
     public int Int() throws IOException {
-        return (int) (
-                (read() & 0xFF) << 24 |
-                (read() & 0xFF) << 16 |
-                (read() & 0xFF) <<  8 |
-                (read() & 0xFF)
-                );
+        return Binary.Int(this::read);
     }
     
     @Override
     public float Float() throws IOException {
-        return Float.intBitsToFloat(Int());
+        return Binary.Float(this::read);
     }
     
     @Override
     public long Long() throws IOException {
-        return (long) (
-                (read() & 0xFF) << 56 |
-                (read() & 0xFF) << 48 |
-                (read() & 0xFF) << 40 |
-                (read() & 0xFF) << 32 |
-                (read() & 0xFF) << 24 |
-                (read() & 0xFF) << 16 |
-                (read() & 0xFF) <<  8 |
-                (read() & 0xFF)
-                );
+        return Binary.Long(this::read);
     }
     
     @Override
     public double Double() throws IOException {
-        return Double.longBitsToDouble(Long());
+        return Binary.Double(this::read);
     }
     
     @Override
     public String LenString() throws IOException {
-        return String(Int());
+        return Binary.LenString(this::read);
     }
     
     @Override
     public String String(int length) throws IOException {
-        char[] chars = new char[length];
-        for (int i = 0; i < length; i++) {
-            chars[i] = Char();
-        }
-        return new String(chars);
+        return Binary.String(this::read, length);
     }
     
     @Override
     public byte[] LenBytes() throws IOException {
-        return Bytes(Int());
+        return Binary.LenBytes(this::read);
     }
     
     @Override
     public byte[] Bytes(int length) throws IOException {
-        byte[] bytes = new byte[length];
-        read(bytes);
-        return bytes;
+        return Binary.Bytes(this::read, length);
     }
     
     @Override
